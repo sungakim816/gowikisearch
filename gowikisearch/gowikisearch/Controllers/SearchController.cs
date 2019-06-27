@@ -27,7 +27,6 @@ namespace gowikisearch.Controllers
 
                 string url = String.Format("https://en.wikipedia.org/w/api.php?action=opensearch&search={0}&limit={1}&format={2}&formatversion=2&namespace=*", encodedUrlQuery, 30, "json");
                 var wikipediaResults = webClient.DownloadString(url);
-                // ViewBag.wikipediaResults = wikipediaResults;
                 dynamic responseObject = JsonConvert.DeserializeObject(wikipediaResults);
                 ViewBag.wikipediaResults = responseObject;
             }
