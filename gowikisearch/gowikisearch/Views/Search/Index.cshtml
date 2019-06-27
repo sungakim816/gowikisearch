@@ -1,0 +1,23 @@
+﻿
+@{
+    ViewBag.Title = "Search";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<br />
+<div class="form-group">
+    <form method="get" action="@Url.Action("Index", "Search")" class="form-inline">
+        <div class="input-group input-group-lg">
+            <input type="text" class="form-control mr-sm-2" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg" name="query" placeholder="Search" value="@ViewBag.query" autocomplete="off" required>
+        </div>
+        <button type="submit" class="btn btn-outline-success my-lg-3 my-sm-0"><h5>Go</h5></button>
+    </form>
+</div>
+
+@if (ViewBag.wikipediaResults != null)
+{
+    foreach (var a in ViewBag.wikipediaResults)
+    {
+        <p>@a</p>
+    }
+}
+
