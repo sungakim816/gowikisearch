@@ -1,9 +1,10 @@
-﻿
+﻿@model PagedList.IPagedList<gowikisearch.Models.WikipediaPage>
+@using PagedList.Mvc;
 @{
     ViewBag.Title = "Search";
     Layout = "~/Views/Shared/_Layout.cshtml";
+
 }
-<br />
 <div class="form-group">
     <form method="get" action="@Url.Action("Index", "Search")" class="form-inline">
         <div class="input-group input-group-lg">
@@ -12,12 +13,53 @@
         <button type="submit" class="btn btn-outline-success my-lg-3 my-sm-0"><h5>Go</h5></button>
     </form>
 </div>
-
-@if (ViewBag.wikipediaResults != null)
+@if (Model != null)
 {
-    foreach (var a in ViewBag.wikipediaResults)
-    {
-        <p>@a</p>
-    }
+    <div class="container-fluid">
+        <div class="row p-2">
+            @foreach (var page in Model)
+            {
+                <div class="card col-sm-3 border-info rounded text-center m-2 p-2">
+                    <div class="card-body">
+                        <h5 class="card-title">@page.Title</h5>
+                        <p class="card-text">@page.Description</p>
+                        <a href="@page.Link" class="btn btn-outline-primary" target="_blank">More...</a>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+    <nav class="">
+        <p>Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount</p>
+        <ul class="pagination">
+            <li class="page-item  @(@Model.HasPreviousPage? "": "disabled")">
+                <a class="page-link" href="@Url.Action("Index", new { query = ViewBag.query, pageNumber = Model.PageNumber - 1 })" tabindex="-1" aria-disabled="@(@Model.HasPreviousPage? "false": "true")">
+                    Previous
+                </a>
+            </li>
+            @for (var pageNumber = 1; pageNumber <= Model.PageCount; pageNumber++)
+            {
+                <li class="page-item @(@Model.PageNumber == pageNumber? "active": "")">
+                    <a class="page-link" href="@Url.Action("Index", new { query = ViewBag.query, pageNumber = pageNumber })">@pageNumber</a>
+                </li>
+            }
+            <li class="page-item @(@Model.HasNextPage? "": "disabled")">
+                <a class="page-link" href="@Url.Action("Index", new { query = ViewBag.query, pageNumber = Model.PageNumber + 1 })" tabindex="-1" aria-disabled="@(@Model.HasNextPage? "false": "true")">Next</a>
+            </li>
+        </ul>
+    </nav>
+}
+else if (Model == null && !string.IsNullOrEmpty(ViewBag.query))
+{
+    <div class="alert alert-info" role="alert">
+        <h4>Your search <strong>@ViewBag.query</strong> did not match any documents.</h4>
+        <h5>Suggestions:</h5>
+        <ul>
+            <li> Make sure that all words are spelled correctly. </li>
+            <li>  Try different keywords. </li>
+            <li>Try more general keywords.</li>
+            <li> Try fewer keyword</li>
+        </ul>
+    </div>
 }
 

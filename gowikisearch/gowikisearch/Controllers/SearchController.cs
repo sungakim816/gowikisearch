@@ -2,6 +2,9 @@
 using System;
 using System.Web;
 using System.Web.Mvc;
+using gowikisearch.ViewModels;
+using System.Collections;
+using PagedList;
 
 namespace gowikisearch.Controllers
 {
@@ -12,25 +15,24 @@ namespace gowikisearch.Controllers
         [Route("search/")]
         [Route("search/{query}")]
         [Route("search/{query}/{pageNumber:regex(^[1-9]{0,2}$)}")]
-        public ActionResult Index(string query, short? pageNumber)
+        public ActionResult Index(string query, int? pageNumber)
         {
+            int pageSize = 6;
             if (!pageNumber.HasValue)
             {
                 pageNumber = 1;
             }
             ViewBag.query = query;
-
-            if (!String.IsNullOrEmpty(query))
-            {
-                var webClient = new System.Net.WebClient();
-                string encodedUrlQuery = HttpUtility.UrlEncode(query);
-
-                string url = String.Format("https://en.wikipedia.org/w/api.php?action=opensearch&search={0}&limit={1}&format={2}&formatversion=2&namespace=*", encodedUrlQuery, 30, "json");
-                var wikipediaResults = webClient.DownloadString(url);
-                dynamic responseObject = JsonConvert.DeserializeObject(wikipediaResults);
-                ViewBag.wikipediaResults = responseObject;
+            WikipediaPages wikiPages = null;
+            if (!string.IsNullOrEmpty(query))
+            { 
+                wikiPages = new WikipediaPages(query);  
             }
-            return View();
+            if (wikiPages == null)
+            {
+                return View();
+            }
+            return View(wikiPages.RetrievePages().ToPagedList((int)pageNumber, pageSize));
         }
     }
 }
