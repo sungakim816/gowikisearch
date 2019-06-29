@@ -18,6 +18,7 @@ namespace gowikisearch.Models
         public int Id { get; set; }
 
         [Required]
+        [MaxLength]
         [MinLength(3)]
         public string Title { get; set; }
 

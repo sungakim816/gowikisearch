@@ -27,6 +27,12 @@ namespace gowikisearch.ViewModels
         }
         public WikipediaPages(string query, int limit = 30, string format = "json", string nameSpace = "*")
         {
+            if (format.ToLower() != "json")
+            {
+                Console.WriteLine("'json' is the only supported format.");
+                throw new FormatException();
+            }
+
             Limit = limit;
             Format = format;
             NameSpace = nameSpace;
@@ -52,7 +58,8 @@ namespace gowikisearch.ViewModels
             var wikipediaResults = webClient.DownloadString(url);
 
             ArrayList queryResult = JsonConvert.DeserializeObject<ArrayList>(wikipediaResults);
-            JArray titles = (JArray)queryResult[1]; // titles
+            // query[0] is only the query (string) sent using wikipedia api
+            JArray titles = (JArray)queryResult[1]; // Array of titles
             JArray descriptions = (JArray)queryResult[2];// corresponding descriptions of each titles, respectively
             JArray links = (JArray)queryResult[3]; // corresponding links each titles, respectively
             for (int i = 0; i < titles.Count; i++)
