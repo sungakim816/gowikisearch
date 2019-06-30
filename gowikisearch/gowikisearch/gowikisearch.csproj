@@ -246,45 +246,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201906280044532_InitialCreate.cs" />
-    <Compile Include="Migrations\201906280044532_InitialCreate.Designer.cs">
-      <DependentUpon>201906280044532_InitialCreate.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201906280058041_InitialModel.cs" />
-    <Compile Include="Migrations\201906280058041_InitialModel.Designer.cs">
-      <DependentUpon>201906280058041_InitialModel.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201906280111017_InitialModel1.cs" />
-    <Compile Include="Migrations\201906280111017_InitialModel1.Designer.cs">
-      <DependentUpon>201906280111017_InitialModel1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201906280123417_SetDefaultPopularityValue.cs" />
-    <Compile Include="Migrations\201906280123417_SetDefaultPopularityValue.Designer.cs">
-      <DependentUpon>201906280123417_SetDefaultPopularityValue.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201906280128595_SetDefaultPopularityValue1.cs" />
-    <Compile Include="Migrations\201906280128595_SetDefaultPopularityValue1.Designer.cs">
-      <DependentUpon>201906280128595_SetDefaultPopularityValue1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201906280144550_SetDataAnnotaionsOnWikipediaPageTitles.cs" />
-    <Compile Include="Migrations\201906280144550_SetDataAnnotaionsOnWikipediaPageTitles.Designer.cs">
-      <DependentUpon>201906280144550_SetDataAnnotaionsOnWikipediaPageTitles.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201906280150160_SetDefaultPopularityValue2.cs" />
-    <Compile Include="Migrations\201906280150160_SetDefaultPopularityValue2.Designer.cs">
-      <DependentUpon>201906280150160_SetDefaultPopularityValue2.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201906280152191_SetDefaultPopularityValue3.cs" />
-    <Compile Include="Migrations\201906280152191_SetDefaultPopularityValue3.Designer.cs">
-      <DependentUpon>201906280152191_SetDefaultPopularityValue3.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201906290225027_InitialCreate1.cs" />
-    <Compile Include="Migrations\201906290225027_InitialCreate1.Designer.cs">
-      <DependentUpon>201906290225027_InitialCreate1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201906290455455_changeVARCHARtoTEXT.cs" />
-    <Compile Include="Migrations\201906290455455_changeVARCHARtoTEXT.Designer.cs">
-      <DependentUpon>201906290455455_changeVARCHARtoTEXT.cs</DependentUpon>
+    <Compile Include="Migrations\201906300041338_initialcreate.cs" />
+    <Compile Include="Migrations\201906300041338_initialcreate.Designer.cs">
+      <DependentUpon>201906300041338_initialcreate.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\DatabaseContext.cs" />
@@ -389,35 +353,8 @@
     <TypeScriptCompile Include="Scripts\index.d.ts" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201906280044532_InitialCreate.resx">
-      <DependentUpon>201906280044532_InitialCreate.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201906280058041_InitialModel.resx">
-      <DependentUpon>201906280058041_InitialModel.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201906280111017_InitialModel1.resx">
-      <DependentUpon>201906280111017_InitialModel1.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201906280123417_SetDefaultPopularityValue.resx">
-      <DependentUpon>201906280123417_SetDefaultPopularityValue.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201906280128595_SetDefaultPopularityValue1.resx">
-      <DependentUpon>201906280128595_SetDefaultPopularityValue1.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201906280144550_SetDataAnnotaionsOnWikipediaPageTitles.resx">
-      <DependentUpon>201906280144550_SetDataAnnotaionsOnWikipediaPageTitles.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201906280150160_SetDefaultPopularityValue2.resx">
-      <DependentUpon>201906280150160_SetDefaultPopularityValue2.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201906280152191_SetDefaultPopularityValue3.resx">
-      <DependentUpon>201906280152191_SetDefaultPopularityValue3.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201906290225027_InitialCreate1.resx">
-      <DependentUpon>201906290225027_InitialCreate1.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201906290455455_changeVARCHARtoTEXT.resx">
-      <DependentUpon>201906290455455_changeVARCHARtoTEXT.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201906300041338_initialcreate.resx">
+      <DependentUpon>201906300041338_initialcreate.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
