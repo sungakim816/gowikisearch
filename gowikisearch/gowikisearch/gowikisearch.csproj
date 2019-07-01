@@ -60,6 +60,15 @@
     <Reference Include="Google.Protobuf, Version=3.8.0.0, Culture=neutral, PublicKeyToken=a7d26565bac4d604, processorArchitecture=MSIL">
       <HintPath>..\packages\Google.Protobuf.3.8.0\lib\net45\Google.Protobuf.dll</HintPath>
     </Reference>
+    <Reference Include="Korzh.EasyQuery, Version=5.1.1.5, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Korzh.EasyQuery.5.1.1\lib\netstandard2.0\Korzh.EasyQuery.dll</HintPath>
+    </Reference>
+    <Reference Include="Korzh.EasyQuery.Db, Version=5.1.1.5, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Korzh.EasyQuery.Db.5.1.1\lib\netstandard2.0\Korzh.EasyQuery.Db.dll</HintPath>
+    </Reference>
+    <Reference Include="Korzh.EasyQuery.Linq, Version=5.1.1.5, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Korzh.EasyQuery.Linq.5.1.1\lib\netstandard2.0\Korzh.EasyQuery.Linq.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=2.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
     </Reference>
@@ -140,6 +149,11 @@
     </Reference>
     <Reference Include="System.Configuration.Install" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.Common, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Data.Common.4.3.0\lib\net451\System.Data.Common.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Diagnostics.DiagnosticSource, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Diagnostics.DiagnosticSource.4.5.0\lib\net46\System.Diagnostics.DiagnosticSource.dll</HintPath>
     </Reference>
@@ -161,6 +175,11 @@
     </Reference>
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
+    <Reference Include="System.Threading.Thread, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Threading.Thread.4.3.0\lib\net46\System.Threading.Thread.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Transactions" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
@@ -246,9 +265,21 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201906300041338_initialcreate.cs" />
-    <Compile Include="Migrations\201906300041338_initialcreate.Designer.cs">
-      <DependentUpon>201906300041338_initialcreate.cs</DependentUpon>
+    <Compile Include="Migrations\201907010336558_initialcreate.cs" />
+    <Compile Include="Migrations\201907010336558_initialcreate.Designer.cs">
+      <DependentUpon>201907010336558_initialcreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201907010503042_initialcreate1.cs" />
+    <Compile Include="Migrations\201907010503042_initialcreate1.Designer.cs">
+      <DependentUpon>201907010503042_initialcreate1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201907010506077_initialcreate2.cs" />
+    <Compile Include="Migrations\201907010506077_initialcreate2.Designer.cs">
+      <DependentUpon>201907010506077_initialcreate2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201907010731246_pleasegumanaKana.cs" />
+    <Compile Include="Migrations\201907010731246_pleasegumanaKana.Designer.cs">
+      <DependentUpon>201907010731246_pleasegumanaKana.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\DatabaseContext.cs" />
@@ -353,8 +384,17 @@
     <TypeScriptCompile Include="Scripts\index.d.ts" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201906300041338_initialcreate.resx">
-      <DependentUpon>201906300041338_initialcreate.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201907010336558_initialcreate.resx">
+      <DependentUpon>201907010336558_initialcreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201907010503042_initialcreate1.resx">
+      <DependentUpon>201907010503042_initialcreate1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201907010506077_initialcreate2.resx">
+      <DependentUpon>201907010506077_initialcreate2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201907010731246_pleasegumanaKana.resx">
+      <DependentUpon>201907010731246_pleasegumanaKana.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -1,7 +1,12 @@
 ﻿@model IEnumerable<gowikisearch.Models.WikipediaPageTitle>
 <div>
-    @foreach (var a in Model)
+    <h1>@ViewBag.DatabaseName.DataSource</h1>
+    @if (Model != null)
     {
-        <p>@a.Title</p>
+        @*foreach (var a in Model)
+        {
+            <p>@a.Title</p>
+        }*@
     }
+
 </div>
