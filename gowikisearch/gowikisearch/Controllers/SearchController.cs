@@ -52,7 +52,7 @@ namespace gowikisearch.Controllers
         [Route("Search/Autocomplete/{query}")]
         public ViewResult Autocomplete(string query)
         {
-            query = "Kim";
+            query = "Hello";
             query = query.ToLower();
             int maxSuggestions = 10;
             string sqlQuery = string.Format("SELECT TOP({0}) * " +

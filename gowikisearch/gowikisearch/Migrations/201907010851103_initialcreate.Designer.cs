@@ -7,13 +7,13 @@ namespace gowikisearch.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.2.0-61023")]
-    public sealed partial class initialcreate1 : IMigrationMetadata
+    public sealed partial class initialcreate : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(initialcreate1));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(initialcreate));
         
         string IMigrationMetadata.Id
         {
-            get { return "201907010503042_initialcreate1"; }
+            get { return "201907010851103_initialcreate"; }
         }
         
         string IMigrationMetadata.Source

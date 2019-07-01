@@ -265,21 +265,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201907010336558_initialcreate.cs" />
-    <Compile Include="Migrations\201907010336558_initialcreate.Designer.cs">
-      <DependentUpon>201907010336558_initialcreate.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201907010503042_initialcreate1.cs" />
-    <Compile Include="Migrations\201907010503042_initialcreate1.Designer.cs">
-      <DependentUpon>201907010503042_initialcreate1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201907010506077_initialcreate2.cs" />
-    <Compile Include="Migrations\201907010506077_initialcreate2.Designer.cs">
-      <DependentUpon>201907010506077_initialcreate2.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201907010731246_pleasegumanaKana.cs" />
-    <Compile Include="Migrations\201907010731246_pleasegumanaKana.Designer.cs">
-      <DependentUpon>201907010731246_pleasegumanaKana.cs</DependentUpon>
+    <Compile Include="Migrations\201907010851103_initialcreate.cs" />
+    <Compile Include="Migrations\201907010851103_initialcreate.Designer.cs">
+      <DependentUpon>201907010851103_initialcreate.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\DatabaseContext.cs" />
@@ -384,17 +372,8 @@
     <TypeScriptCompile Include="Scripts\index.d.ts" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201907010336558_initialcreate.resx">
-      <DependentUpon>201907010336558_initialcreate.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201907010503042_initialcreate1.resx">
-      <DependentUpon>201907010503042_initialcreate1.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201907010506077_initialcreate2.resx">
-      <DependentUpon>201907010506077_initialcreate2.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201907010731246_pleasegumanaKana.resx">
-      <DependentUpon>201907010731246_pleasegumanaKana.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201907010851103_initialcreate.resx">
+      <DependentUpon>201907010851103_initialcreate.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
