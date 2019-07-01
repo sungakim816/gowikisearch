@@ -6,10 +6,51 @@
     <title>@ViewBag.Title - Pyperpedia</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <style>
+        .searchbar{
+        margin-bottom: auto;
+        margin-top: auto;
+        height: 90px;
+        border-radius: 45px;
+        border-width:thin;
+        border:outset;
+        color: black;
+        background-color: white;
+        border-color:black;
+        padding: 15px;
+        }
+
+        .search_input{
+        color: black;
+        border: 0;
+        outline: 0;
+        background: none;
+        width: 600px;
+        max-width: 100%;
+        padding: 0 15px;
+        caret-color:transparent;
+        line-height: 60px;
+        caret-color:red;
+        }
+
+        .search_icon{
+        background: white;
+        color: #e74c3c;
+        height: 60px;
+        width: 60px;
+        float: right;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 50%;
+        color:white;
+        }
+    </style>
 </head>
 <body>
     @Html.Partial("_NavigationBar")
-    <div class="container body-content p-2" role="main">
+    <div class="body-content" id="main" role="main">
         @RenderBody()
     </div>
     @Html.Partial("_Footer")
