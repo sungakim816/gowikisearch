@@ -5,15 +5,20 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 
 }
-<div class="form-group">
-    <form method="get" action="@Url.Action("Index", "Search")" class="form-inline">
-        <div class="input-group input-group-lg">
-            <input type="text" class="form-control mr-sm-2" aria-label="Search Field" aria-describedby="inputGroup-sizing-lg" name="query"
-                   placeholder="Search" value="@ViewBag.Query" autocomplete="off" required>
-        </div>
-        <button type="submit" class="btn btn-outline-success my-lg-3 my-sm-0"><h5>Go</h5></button>
-    </form>
-</div>
+    <br />
+    <div class="row">
+        <form method="get" action="@Url.Action("Index", "Search")">
+            <div class="col h-100">
+                <div class=" h-100 w-100">
+                    <div class="searchbar text-black-50">
+                        <input class="search_input" type="text" name="query" maxlength="240" placeholder="Search Keywords e.g. Thanos Snap" value="@ViewBag.query" autocomplete="off" required>
+                        <button type="submit" class="search_icon"><i class="fas fa-search text-black-50"></i></button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
 
 <div class="autocomplete">
     
@@ -57,6 +62,7 @@
 }
 else if (Model != null && Model.PageCount == 0)
 {
+    <br />
     <div class="alert alert-info" role="alert">
         <h4>Your search <strong>@ViewBag.Query</strong> did not match any documents.</h4>
         <h5>Suggestions:</h5>
