@@ -24,6 +24,7 @@ namespace gowikisearch.Controllers
 
         // GET: Search
         [HttpGet]
+        [OutputCache(Duration = 60)]
         [Route("Search/")]
         [Route("Search/{query}")]
         [Route("Search/{query}/{pageNumber:regex(^[1-9]{0,2}$)}")]
@@ -48,8 +49,8 @@ namespace gowikisearch.Controllers
         }
 
         [HttpGet]
-        [Route("Search/UpdatePagePopularity/{id:regex(^[1-9]$)}")]
-        [Route("Search/Update/Popularity/{id:regex(^[1-9]$)}")]
+        [Route("Search/UpdatePagePopularity/{id:regex(^[1-9]{1,15}$)}")]
+        [Route("Search/Update/Popularity/{id:regex(^[1-9]{1,15}$)}")]
         public ActionResult UpdatePagePopularity(int id)
         {
             try
@@ -57,6 +58,7 @@ namespace gowikisearch.Controllers
                 WikipediaPageTitle pageTitleInstance = _context.WikipediaPageTitles.SingleOrDefault(p => p.Id == id);
                 pageTitleInstance.Popularity += 1;
                 _context.SaveChanges();
+                Console.WriteLine("Fuck YOU World");
             }
             catch (Exception ex)
             {
@@ -67,6 +69,7 @@ namespace gowikisearch.Controllers
         }
 
         // GET: Search Autocomplete
+        [OutputCache(Duration = 120, VaryByParam = "query")]
         [HttpGet]
         [Route("Search/Autocomplete")]
         [Route("Search/Autocomplete/{query}")]
