@@ -1,12 +1,19 @@
-﻿@model IEnumerable<gowikisearch.Models.WikipediaPageTitle>
-<div>
-    <h1>@ViewBag.DatabaseName.DataSource</h1>
+﻿@{
+    Layout = null;
+}
+
+@model IEnumerable<gowikisearch.Models.WikipediaPageTitle>
+<div class="p-2">
     @if (Model != null)
     {
-        foreach (var a in Model)
-        {
-            <p>@a.Title</p>
-        }
+        <ul class="list-group">
+            @foreach (var pageTitle in Model)
+            {
+                <li class="list-group-item" onmouseover="this.className += ' active';" onmouseout="this.className = 'list-group-item'"
+                    onclick="changeSearchBoxValue('@pageTitle.Title', @pageTitle.Id)">
+                    @pageTitle.Title
+                </li>
+            }
+        </ul>
     }
-
 </div>

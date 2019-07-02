@@ -5,24 +5,20 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 
 }
-    <br />
-    <div class="row">
-        <form method="get" action="@Url.Action("Index", "Search")">
-            <div class="col h-100">
-                <div class=" h-100 w-100">
-                    <div class="searchbar text-black-50">
-                        <input class="search_input" type="text" name="query" maxlength="240" placeholder="Search Keywords e.g. Thanos Snap" value="@ViewBag.query" autocomplete="off" required>
-                        <button type="submit" class="search_icon"><i class="fas fa-search text-black-50"></i></button>
-                    </div>
+<br />
+<div class="row">
+    <form method="get" action="@Url.Action("Index", "Search")" onsubmit="updatePagePopularity()">
+        <div class="col h-100">
+            <div class=" h-100 w-100">
+                <div class="searchbar text-black-50">
+                    <input id="search-box" class="search_input" type="text" name="query" maxlength="240" onkeyup="showQuerySuggestions(this.value)" placeholder="Search Keywords e.g Hello" value="@ViewBag.query" autocomplete="off" required>
+                    <button type="submit" class="search_icon"><i class="fas fa-search text-black-50"></i></button>
                 </div>
             </div>
-        </form>
-    </div>
-
-
-<div class="autocomplete">
-    
+        </div>
+    </form>
 </div>
+<div id="query-suggestions"></div>
 
 @if (Model != null && Model.PageCount > 0)
 {
@@ -74,4 +70,46 @@ else if (Model != null && Model.PageCount == 0)
         </ul>
     </div>
 }
+
+@section scripts{
+    <script>
+        function showQuerySuggestions(str) {
+            if (str.length < 3) {
+                document.getElementById("query-suggestions").innerHTML = "";
+                return;
+            } else {
+                var xmlhttp = new XMLHttpRequest();
+                xmlhttp.onreadystatechange = function () {
+                    if (this.readyState == 4 && this.status == 200) {
+                        $("#query-suggestions").show();
+                        document.getElementById("query-suggestions").innerHTML = this.responseText;
+                    }
+                };
+                var actionUrl = "@Url.Action("Autocomplete", "Search")" + "?query=" + str;
+                xmlhttp.open("GET", actionUrl, true);
+                xmlhttp.send();
+            }
+        }
+
+        function changeSearchBoxValue(str, id) {
+            if (str.length == 0) {
+                return;
+            }
+            document.getElementById("search-box").value = str;
+            document.getElementById("search-box").setAttribute("titlepageid", id);
+            $("#query-suggestions").hide();
+            $("#search-box").focus();
+        }
+
+    function updatePagePopularity() {
+        var id = document.getElementById("search-box").getAttribute("titlepageid");
+        var xmlhttp = new XMLHttpRequest();
+        var actionUrl = "@Url.Action("UpdatePagePopularity", "Search")" + "/" + id;
+        xmlhttp.open("GET", actionUrl, true);
+        xmlhttp.send();
+    }
+
+    </script>
+}
+
 
