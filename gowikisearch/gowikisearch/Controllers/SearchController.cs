@@ -6,6 +6,9 @@ using System.Collections.Generic;
 using System.Linq;
 using Korzh.EasyQuery.Linq;
 using System;
+using System.Web;
+using gowikisearch.HelperClass;
+using System.Collections;
 
 namespace gowikisearch.Controllers
 {
@@ -49,16 +52,15 @@ namespace gowikisearch.Controllers
         }
 
         [HttpGet]
-        [Route("Search/UpdatePagePopularity/{id:regex(^[1-9]{1,15}$)}")]
-        [Route("Search/Update/Popularity/{id:regex(^[1-9]{1,15}$)}")]
-        public ActionResult UpdatePagePopularity(int id)
+        [Route("Search/UpdatePagePopularity/{title}")]
+        [Route("Search/Update/Popularity/{title}")]
+        public ActionResult UpdatePagePopularity(string title)
         {
             try
             {
-                WikipediaPageTitle pageTitleInstance = _context.WikipediaPageTitles.SingleOrDefault(p => p.Id == id);
+                WikipediaPageTitle pageTitleInstance = _context.WikipediaPageTitles.SingleOrDefault(p => p.Title == title);
                 pageTitleInstance.Popularity += 1;
                 _context.SaveChanges();
-                Console.WriteLine("Fuck YOU World");
             }
             catch (Exception ex)
             {
@@ -69,7 +71,7 @@ namespace gowikisearch.Controllers
         }
 
         // GET: Search Autocomplete
-        [OutputCache(Duration = 120, VaryByParam = "query")]
+        [OutputCache(Duration = 10, VaryByParam = "query")]
         [HttpGet]
         [Route("Search/Autocomplete")]
         [Route("Search/Autocomplete/{query}")]
@@ -80,13 +82,39 @@ namespace gowikisearch.Controllers
                 return new EmptyResult();
             }
             query = query.ToLower();
-            int maxSuggestions = 15;
-            string sqlQuery = string.Format("SELECT TOP({0}) * FROM (SELECT TOP(1000) * FROM [dbo].WikipediaPageTitle " +
-                "WHERE CONTAINS(Title, '\"{1}*\"')) as result WHERE result.Title LIKE '{1}%'" +
-                "ORDER BY result.Popularity DESC, result.Title;", maxSuggestions, query);
-            ViewBag.DatabaseName = _context.Database.Connection;
-            IEnumerable<WikipediaPageTitle> suggestions = _context.WikipediaPageTitles.SqlQuery(sqlQuery).AsEnumerable();
-            return View(suggestions);
+            short maxSuggestions = 20;
+            short minimumSuggestions = 5;
+            short minimumResultFromDatabase = 2500;
+            // Retrieve trie structure from runtime cache, key: 'Trie';
+            TrieDataStructure trie = (TrieDataStructure)HttpRuntime.Cache["Trie"];
+            // initialize container for WikipediaPageTitle objects 
+            IEnumerable<WikipediaPageTitle> querySuggestions = Enumerable.Empty<WikipediaPageTitle>();
+            // get suggestions
+            ArrayList suggestionArray = trie.Suggestions(query);
+            // check if trie has suggestions
+            if (suggestionArray.Count >= minimumSuggestions)
+            {
+                querySuggestions = _context.WikipediaPageTitles
+                    .Where(s => suggestionArray.Contains(s.Title))
+                    .OrderByDescending(s => s.Popularity)
+                    .OrderBy(s => s.Title)
+                    .Take(maxSuggestions)
+                    .AsEnumerable();
+                return View(querySuggestions);
+            }
+            // if no result, query the database using full-text search for faster response
+            string sqlQuery = string.Format("SELECT TOP({0}) * FROM [dbo].[WikipediaPageTitle] " + 
+                "WHERE CONTAINS(Title, '\"{1}*\"')" + 
+                "ORDER BY Popularity DESC, Title;", minimumResultFromDatabase, query);
+            querySuggestions = _context.WikipediaPageTitles.SqlQuery(sqlQuery).AsEnumerable();
+            // add result to the trie
+            foreach (var suggestion in querySuggestions)
+            {
+                trie.Add(suggestion.ToString());
+            }
+            // save to runtime cache
+            HttpRuntime.Cache["Trie"] = trie;
+            return View(querySuggestions.Take(maxSuggestions).AsEnumerable());
         }
     }
 }

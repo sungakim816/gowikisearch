@@ -265,9 +265,11 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201907010851103_initialcreate.cs" />
-    <Compile Include="Migrations\201907010851103_initialcreate.Designer.cs">
-      <DependentUpon>201907010851103_initialcreate.cs</DependentUpon>
+    <Compile Include="HelperClass\TrieDataStructure.cs" />
+    <Compile Include="HelperClass\TrieNode.cs" />
+    <Compile Include="Migrations\201907030029234_initialcreate.cs" />
+    <Compile Include="Migrations\201907030029234_initialcreate.Designer.cs">
+      <DependentUpon>201907030029234_initialcreate.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\DatabaseContext.cs" />
@@ -372,8 +374,8 @@
     <TypeScriptCompile Include="Scripts\index.d.ts" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201907010851103_initialcreate.resx">
-      <DependentUpon>201907010851103_initialcreate.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201907030029234_initialcreate.resx">
+      <DependentUpon>201907030029234_initialcreate.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -4,6 +4,7 @@ using System.Linq;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel;
 using System.Web;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace gowikisearch.Models
 {
@@ -20,6 +21,7 @@ namespace gowikisearch.Models
         [Required]
         [MaxLength(255)]
         [MinLength(3)]
+        [Index(IsUnique = true)]
         public string Title { get; set; }
 
         [Required]

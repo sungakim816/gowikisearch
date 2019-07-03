@@ -11,7 +11,7 @@ namespace gowikisearch.Models
     {
         public DatabaseContext()
         {
-
+            Database.CommandTimeout = 3600;
         }
 
         public DbSet<WikipediaPageTitle> WikipediaPageTitles { get; set; }

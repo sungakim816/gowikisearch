@@ -12,7 +12,7 @@
     </div>
     <div class="row">
         <div class="form-group col">
-            <form method="get" action="@Url.Action("Index", "Search")" onsubmit="updatePagePopularity()">
+            <form method="get" action="@Url.Action("Index", "Search")" onsubmit="updatePagePopularity(document.getElementById('search-box').value)">
                 <div class="container h-100">
                     <div class="d-flex justify-content-xl-center h-100">
                         <div class="searchbar text-black-50">
@@ -54,15 +54,13 @@
                 return;
             }
             document.getElementById("search-box").value = str;
-            document.getElementById("search-box").setAttribute("titlepageid", id);
             $("#query-suggestions").hide();
             $("#search-box").focus();
         }
 
-    function updatePagePopularity() {
-        var id = document.getElementById("search-box").getAttribute("titlepageid");
+    function updatePagePopularity(title) {
         var xmlhttp = new XMLHttpRequest();
-        var actionUrl = "@Url.Action("UpdatePagePopularity", "Search")" + "/" + id;
+        var actionUrl = "@Url.Action("UpdatePagePopularity", "Search")" + "/" + title;
         xmlhttp.open("GET", actionUrl, true);
         xmlhttp.send();
     }
