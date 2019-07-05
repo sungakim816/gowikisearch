@@ -48,25 +48,27 @@
         }
 
         #query-suggestions {
-            z-index: 100;
+            z-index: 1000;
             position: absolute;
             width: 40rem;
         }
 
-       #landing {
+       body {
             height: 100vh;
             background-image: url(@Url.Content("~/Content/Images/bg.svg"));
             background-position: center;
             background-size: cover;
             background-repeat: no-repeat;
             background-attachment: fixed;
-            z-index: -1;
+            z-index: -1000;
         }
     </style>
 </head>
 <body>
     @Html.Partial("_NavigationBar")
-    @RenderBody()
+    <div class="h-100">
+        @RenderBody()
+    </div>
     @*@Html.Partial("_Footer")*@
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
