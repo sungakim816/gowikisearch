@@ -11,7 +11,7 @@ namespace gowikisearch.HelperClass
     public class TrieDataStructure
     {
         private TrieNode root;
-        private ArrayList wordList;
+        private List<string> wordList;
         public TrieDataStructure()
         {
             this.Initialize();
@@ -20,7 +20,7 @@ namespace gowikisearch.HelperClass
         protected void Initialize()
         {
             root = new TrieNode();
-            wordList = new ArrayList();
+            wordList = new List<string>();
         }
 
         public void Add(string key)
@@ -37,7 +37,7 @@ namespace gowikisearch.HelperClass
             node.IsWord = true;
         }
 
-        public ArrayList Suggestions(string word)
+        public List<string> Suggestions(string word)
         {
             wordList.Clear();
             TrieNode node = this.root;
@@ -56,7 +56,7 @@ namespace gowikisearch.HelperClass
 
             if (notFound)
             {
-                return new ArrayList();
+                return new List<string>();
             }
             this.SuggestionRecursion(node, tempWord);
             return wordList;

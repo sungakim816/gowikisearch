@@ -23,20 +23,19 @@
 @if (Model != null && Model.PageCount > 0)
 {
     <div class="container-fluid">
-        <div class="row p-2">
+        <div class="list-group list-group-flush p-3">
             @foreach (var page in Model)
             {
-                <div class="card col-sm-3 border-info rounded text-center m-2 p-2">
-                    <div class="card-body">
-                        <h5 class="card-title">@page.Title</h5>
-                        <p class="card-text">@page.Description</p>
-                        <a href="@page.Link" class="btn btn-outline-primary" target="_blank">More...</a>
-                    </div>
+            <a href="@page.Link" class="list-group-item list-group-item-action p-2" target="_blank">
+                <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-1 text-info">@page.Title</h5>
                 </div>
+                <p class="mb-1">@page.Description</p>
+            </a>
             }
         </div>
     </div>
-    <nav class="">
+    <nav>
         <p>Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount</p>
         <ul class="pagination">
             <li class="page-item  @(@Model.HasPreviousPage? "": "disabled")">
@@ -91,7 +90,7 @@ else if (Model != null && Model.PageCount == 0)
             }
         }
 
-        function changeSearchBoxValue(str, id) {
+        function changeSearchBoxValue(str) {
             if (str.length == 0) {
                 return;
             }
