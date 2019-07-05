@@ -103,7 +103,7 @@ namespace gowikisearch.Controllers
         }
 
         // GET: Search Autocomplete
-        //[OutputCache(Duration = 30, VaryByParam = "query")]
+        [OutputCache(Duration = 30, VaryByParam = "query")]
         [HttpGet]
         [Route("Search/Autocomplete")]
         [Route("Search/Autocomplete/{query}")]
@@ -117,8 +117,8 @@ namespace gowikisearch.Controllers
             query = query.ToLower();
             string formattedQuery = FormatQueryForFullTextSearch(query);
             short maxSuggestions = 15;
-            short minSuggestions = 5;
-            short minimumResultFromDatabase = 2500;
+            short minSuggestions = 10;
+            short minimumResultFromDatabase = 3000;
             // Retrieve trie structure from runtime cache, key: 'Trie';
             TrieDataStructure trie = (TrieDataStructure)HttpRuntime.Cache["Trie"];
             // initialize container for WikipediaPageTitle objects 
