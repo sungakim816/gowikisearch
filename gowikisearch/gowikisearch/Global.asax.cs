@@ -1,15 +1,11 @@
 ﻿using gowikisearch.HelperClass;
 using System.IO;
-using System;
 using System.Web;
 using System.Web.Caching;
 using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
-using gowikisearch.Models;
-using System.Linq;
-using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 
@@ -24,9 +20,17 @@ namespace gowikisearch
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
-            TrieDataStructure trie = new TrieDataStructure();
-            HttpRuntime.Cache.Insert("Trie", trie, null, Cache.NoAbsoluteExpiration, Cache.NoSlidingExpiration, CacheItemPriority.NotRemovable, null);
+            InitializeTrie();
             InitializeStopWordList();
+        }
+
+        private void InitializeTrie()
+        {
+            TrieDataStructure trie = new TrieDataStructure();
+            string path = Server.MapPath("~/App_Data/words.txt");
+            FileStream fileStream = new FileStream(path, FileMode.Open, FileAccess.Read);
+            trie.Populate(fileStream);
+            HttpRuntime.Cache.Insert("Trie", trie, null, Cache.NoAbsoluteExpiration, Cache.NoSlidingExpiration, CacheItemPriority.NotRemovable, null);
         }
 
         private void InitializeStopWordList()

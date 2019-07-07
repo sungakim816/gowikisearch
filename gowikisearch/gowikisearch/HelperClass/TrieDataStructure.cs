@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.IO;
 using System.Text;
 
@@ -14,7 +11,7 @@ namespace gowikisearch.HelperClass
         private List<string> wordList;
         public TrieDataStructure()
         {
-            this.Initialize();
+            Initialize();
         }
 
         protected void Initialize()
@@ -25,7 +22,11 @@ namespace gowikisearch.HelperClass
 
         public void Add(string key)
         {
-            TrieNode node = this.root;
+            if(Contains(key))
+            {
+                return;
+            }
+            TrieNode node = root;
             foreach (char k in key.ToLower())
             {
                 if (!node.SubNodes.ContainsKey(k))
@@ -39,6 +40,10 @@ namespace gowikisearch.HelperClass
 
         public List<string> Suggestions(string word)
         {
+            if (string.IsNullOrEmpty(word) || string.IsNullOrWhiteSpace(word))
+            {
+                return new List<string>();
+            }
             wordList.Clear();
             TrieNode node = this.root;
             bool notFound = false;
@@ -58,27 +63,54 @@ namespace gowikisearch.HelperClass
             {
                 return new List<string>();
             }
-            this.SuggestionRecursion(node, tempWord);
+            SuggestionRecursion(node, tempWord);
             return wordList;
         }
 
         protected void SuggestionRecursion(TrieNode node, string word)
         {
+            if (node == null || string.IsNullOrEmpty(word) || string.IsNullOrWhiteSpace(word))
+            {
+                return;
+            }
             if (node.IsWord)
             {
                 wordList.Add(word);
             }
-            foreach (var n in node.SubNodes)
+            foreach (var key in node.SubNodes.Keys)
             {
-                this.SuggestionRecursion(n.Value, word + n.Key);
+                SuggestionRecursion(node.SubNodes[key], word + key);
             }
         }
-
-        public void FormTrie(IEnumerable<string> keys)
+        // return true if prefix exist within the Trie
+        public bool Contains(string word)
         {
+            if (string.IsNullOrEmpty(word) || string.IsNullOrWhiteSpace(word))
+            {
+                return false;
+            }
+            word = word.Trim().ToLower();
+            TrieNode node = root;
+            foreach(char letter in word)
+            {
+                if(!node.SubNodes.ContainsKey(letter))
+                {
+                    return false;
+                }
+                node = node.SubNodes[letter];
+            }
+            return true;
+        }
+
+        public void Populate(IEnumerable<string> keys)
+        {
+            if(keys.Count() == 0)
+            {
+                return;
+            }
             foreach (var key in keys)
             {
-                this.Add(key);
+                Add(key);
             }
         }
 
@@ -88,7 +120,7 @@ namespace gowikisearch.HelperClass
             string line;
             while ((line = streamReader.ReadLine()) != null)
             {
-                this.Add(line);
+                Add(line);
             }
             f.Close();
         }

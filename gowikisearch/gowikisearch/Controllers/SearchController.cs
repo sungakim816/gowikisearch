@@ -27,7 +27,7 @@ namespace gowikisearch.Controllers
 
         // GET: Search
         [HttpGet]
-        [OutputCache(Duration = 30)]
+        // [OutputCache(Duration = 30)]
         [Route("Search/")]
         [Route("Search/{query}")]
         [Route("Search/{query}/{pageNumber:regex(^[1-9]{0,3}$)}")]
@@ -72,15 +72,16 @@ namespace gowikisearch.Controllers
 
         private string FormatQueryForFullTextSearch(string q)
         {
-            if (q.Length == 0)
+            q = q.Trim();
+            if (string.IsNullOrWhiteSpace(q) || string.IsNullOrEmpty(q))
             {
                 return "";
             }
             List<string> stopWords = (List<string>)HttpRuntime.Cache["StopWords"];
-            char[] qChars = q.Where(c => (char.IsLetter(c) || char.IsWhiteSpace(c))).ToArray();
+            char[] qChars = q.Trim().Where(c => (char.IsLetter(c) || char.IsWhiteSpace(c))).ToArray();
             q = new string(qChars);
             string[] qArray = q.Split(' ');
-
+            qArray = qArray.Where(element => !stopWords.Contains(element)).ToArray();
             if (qArray.Length == 1)
             {
                 return string.Format("\"{0}*\"", qArray.First());
@@ -89,59 +90,58 @@ namespace gowikisearch.Controllers
             q = "";
             foreach (string s in qArray)
             {
-                if (!stopWords.Contains(s))
+
+                if (s.Equals(qArray.Last()))
                 {
-                    if (s.Equals(qArray.Last()))
-                    {
-                        q += string.Format("\"{0}*\"", s);
-                        break;
-                    }
-                    q += string.Format("{0} AND ", s);
+                    q += string.Format("\"{0}*\"", s);
+                    return q;
                 }
+                q += string.Format("{0} AND ", s);
+
             }
             return q;
         }
 
         // GET: Search Autocomplete
-        [OutputCache(Duration = 30, VaryByParam = "query")]
+        // [OutputCache(Duration = 30, VaryByParam = "query")]
         [HttpGet]
         [Route("Search/Autocomplete")]
         [Route("Search/Autocomplete/{query}")]
         public ActionResult Autocomplete(string query)
         {
-            if (query == null)
+            // initialize container for WikipediaPageTitle objects 
+            IEnumerable<WikipediaPageTitle> querySuggestions = Enumerable.Empty<WikipediaPageTitle>();
+            if (string.IsNullOrEmpty(query) || string.IsNullOrWhiteSpace(query))
             {
-                return new EmptyResult();
+                return View(querySuggestions);
             }
             ViewBag.Query = query;
             query = query.ToLower();
             string formattedQuery = FormatQueryForFullTextSearch(query);
             short maxSuggestions = 15;
-            short minSuggestions = 10;
-            short minimumResultFromDatabase = 3000;
             // Retrieve trie structure from runtime cache, key: 'Trie';
-            TrieDataStructure trie = (TrieDataStructure)HttpRuntime.Cache["Trie"];
-            // initialize container for WikipediaPageTitle objects 
-            IEnumerable<WikipediaPageTitle> querySuggestions;
+            TrieDataStructure trie = (TrieDataStructure)HttpRuntime.Cache["Trie"];    
             // get suggestions
             List<string> suggestionArray = trie.Suggestions(query);
             // check if trie has suggestions
-            if (suggestionArray.Count < minSuggestions)
+            if (suggestionArray.Count() == 0)
             {
-                // if no result, query the database using full-text search for faster response
-                string sqlQuery = string.Format("SELECT TOP({0}) * FROM [dbo].[WikipediaPageTitle] " +
-                    "WHERE CONTAINS(Title, '{1}')" +
-                    "ORDER BY Popularity DESC, Title DESC;", minimumResultFromDatabase, formattedQuery);
-                querySuggestions = _context.WikipediaPageTitles.SqlQuery(sqlQuery).AsEnumerable();
-                // add result to the trie
-                foreach (var suggestion in querySuggestions)
-                {
-                    trie.Add(suggestion.Title.ToLower());
-                }
+                //// if no result, query the database using full-text search for faster response
+                //string sqlQuery = string.Format("SELECT TOP({0}) * FROM [dbo].[WikipediaPageTitle] " +
+                //    "WHERE CONTAINS(Title, '{1}')" +
+                //    "ORDER BY Popularity DESC, Title DESC;", minimumResultFromDatabase, formattedQuery);
+                //querySuggestions = _context.WikipediaPageTitles.SqlQuery(sqlQuery).AsEnumerable();
+                //// add result to the trie
+                //foreach (var suggestion in querySuggestions)
+                //{
+                //    trie.Add(suggestion.Title.ToLower());
+                //}
                 // save to runtime cache
+                trie.Add(query);
                 HttpRuntime.Cache["Trie"] = trie;
+                return View(querySuggestions);
             }
-            suggestionArray = trie.Suggestions(query);
+            // suggestionArray = trie.Suggestions(query);
             querySuggestions = _context.WikipediaPageTitles
                 .Where(s => suggestionArray.Contains(s.Title))
                 .OrderByDescending(s => s.Popularity)
