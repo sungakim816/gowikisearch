@@ -1,0 +1,12 @@
+﻿<div class="row">
+    <form method="get" action="@Url.Action("Index", "Search")" onsubmit="updatePagePopularity(document.getElementById('search-box').value)">
+        <div class="w-100">
+            <div class="w-100">
+                <div class="searchbar text-black-50">
+                    <input id="search-box" class="search_input" type="text" name="query" maxlength="240" onkeyup="showQuerySuggestions(this.value)" placeholder="Search Keywords e.g Hello" value="@ViewBag.query" autocomplete="off" required>
+                    <button type="submit" class="search_icon bg-dark"><i class="fas fa-search text-white"></i></button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
