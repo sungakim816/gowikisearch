@@ -27,7 +27,7 @@ namespace gowikisearch.Controllers
 
         // GET: Search
         [HttpGet]
-        // [OutputCache(Duration = 30)]
+        [OutputCache(Duration = 30)]
         [Route("Search/")]
         [Route("Search/{query}")]
         [Route("Search/{query}/{pageNumber:regex(^[1-9]{0,3}$)}")]
@@ -103,17 +103,15 @@ namespace gowikisearch.Controllers
         }
 
         // GET: Search Autocomplete
-        // [OutputCache(Duration = 30, VaryByParam = "query")]
         [HttpGet]
         [Route("Search/Autocomplete")]
         [Route("Search/Autocomplete/{query}")]
         public ActionResult Autocomplete(string query)
         {
             // initialize container for WikipediaPageTitle objects 
-            IEnumerable<WikipediaPageTitle> querySuggestions = Enumerable.Empty<WikipediaPageTitle>();
             if (string.IsNullOrEmpty(query) || string.IsNullOrWhiteSpace(query))
             {
-                return View(querySuggestions);
+                return View(Enumerable.Empty<WikipediaPageTitle>());
             }
             ViewBag.Query = query;
             query = query.ToLower();
@@ -122,26 +120,15 @@ namespace gowikisearch.Controllers
             // Retrieve trie structure from runtime cache, key: 'Trie';
             TrieDataStructure trie = (TrieDataStructure)HttpRuntime.Cache["Trie"];    
             // get suggestions
-            List<string> suggestionArray = trie.Suggestions(query);
+            List<string> suggestionArray = trie.Suggestions(query, maxSuggestions);
             // check if trie has suggestions
             if (suggestionArray.Count() == 0)
             {
-                //// if no result, query the database using full-text search for faster response
-                //string sqlQuery = string.Format("SELECT TOP({0}) * FROM [dbo].[WikipediaPageTitle] " +
-                //    "WHERE CONTAINS(Title, '{1}')" +
-                //    "ORDER BY Popularity DESC, Title DESC;", minimumResultFromDatabase, formattedQuery);
-                //querySuggestions = _context.WikipediaPageTitles.SqlQuery(sqlQuery).AsEnumerable();
-                //// add result to the trie
-                //foreach (var suggestion in querySuggestions)
-                //{
-                //    trie.Add(suggestion.Title.ToLower());
-                //}
-                // save to runtime cache
                 trie.Add(query);
                 HttpRuntime.Cache["Trie"] = trie;
-                return View(querySuggestions);
+                return View(Enumerable.Empty<WikipediaPageTitle>());
             }
-            // suggestionArray = trie.Suggestions(query);
+            IEnumerable<WikipediaPageTitle> querySuggestions = Enumerable.Empty<WikipediaPageTitle>();
             querySuggestions = _context.WikipediaPageTitles
                 .Where(s => suggestionArray.Contains(s.Title))
                 .OrderByDescending(s => s.Popularity)

@@ -38,7 +38,7 @@ namespace gowikisearch.HelperClass
             node.IsWord = true;
         }
 
-        public List<string> Suggestions(string word)
+        public List<string> Suggestions(string word, short limit = 10)
         {
             if (string.IsNullOrEmpty(word) || string.IsNullOrWhiteSpace(word))
             {
@@ -63,23 +63,24 @@ namespace gowikisearch.HelperClass
             {
                 return new List<string>();
             }
-            SuggestionRecursion(node, tempWord);
+            SuggestionRecursion(node, tempWord, limit);
             return wordList;
         }
 
-        protected void SuggestionRecursion(TrieNode node, string word)
+        protected void SuggestionRecursion(TrieNode node, string word, int count)
         {
-            if (node == null || string.IsNullOrEmpty(word) || string.IsNullOrWhiteSpace(word))
+            if (node == null || string.IsNullOrEmpty(word) || string.IsNullOrWhiteSpace(word) || count <= 0)
             {
                 return;
             }
             if (node.IsWord)
             {
+                count--;
                 wordList.Add(word);
             }
             foreach (var key in node.SubNodes.Keys)
             {
-                SuggestionRecursion(node.SubNodes[key], word + key);
+                SuggestionRecursion(node.SubNodes[key], word + key, count--);
             }
         }
         // return true if prefix exist within the Trie
