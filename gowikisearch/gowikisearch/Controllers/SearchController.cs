@@ -132,7 +132,6 @@ namespace gowikisearch.Controllers
             querySuggestions = _context.WikipediaPageTitles
                 .Where(s => suggestionArray.Contains(s.Title))
                 .OrderByDescending(s => s.Popularity)
-                .OrderBy(s => s.Title)
                 .Take(maxSuggestions)
                 .AsEnumerable();
             return View(querySuggestions);
